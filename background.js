@@ -4,6 +4,27 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     chrome.identity.getProfileUserInfo({ accountStatus: 'ANY' }, (info) => {
       sendResponse({ email: info?.email || null });
     });
-    return true; // Keep channel open for async response
+    return true;
+  }
+  
+  if (request.action === 'incrementClickCount') {
+    chrome.storage.local.get(['clickCount', 'trackingSince'], (data) => {
+      const newCount = (data.clickCount || 0) + 1;
+      const trackingSince = data.trackingSince || new Date().toISOString();
+      chrome.storage.local.set({ clickCount: newCount, trackingSince }, () => {
+        sendResponse({ clickCount: newCount, trackingSince });
+      });
+    });
+    return true;
+  }
+  
+  if (request.action === 'getClickStats') {
+    chrome.storage.local.get(['clickCount', 'trackingSince'], (data) => {
+      sendResponse({
+        clickCount: data.clickCount || 0,
+        trackingSince: data.trackingSince || null
+      });
+    });
+    return true;
   }
 });
