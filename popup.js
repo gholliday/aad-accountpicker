@@ -9,13 +9,19 @@ chrome.runtime.sendMessage({ action: 'getClickStats' }, (stats) => {
   }
 });
 
-// Load and handle delay setting
+// Load and handle settings
 const delayCheckbox = document.getElementById('delayEnabled');
+const emailAutoSubmitCheckbox = document.getElementById('emailAutoSubmit');
 
-chrome.storage.local.get(['delayEnabled'], (data) => {
+chrome.storage.local.get(['delayEnabled', 'emailAutoSubmit'], (data) => {
   delayCheckbox.checked = data.delayEnabled || false;
+  emailAutoSubmitCheckbox.checked = data.emailAutoSubmit || false;
 });
 
 delayCheckbox.addEventListener('change', () => {
   chrome.storage.local.set({ delayEnabled: delayCheckbox.checked });
+});
+
+emailAutoSubmitCheckbox.addEventListener('change', () => {
+  chrome.storage.local.set({ emailAutoSubmit: emailAutoSubmitCheckbox.checked });
 });

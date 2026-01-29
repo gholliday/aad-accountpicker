@@ -1,6 +1,6 @@
 {
   "name": "AAD Account Picker",
-  "version": "0.2",
+  "version": "0.4",
   "description": "Auto-selects your account on Microsoft login pages based on your Edge profile.",
   "manifest_version": 3,
   "permissions": [
@@ -9,7 +9,8 @@
     "storage"
   ],
   "host_permissions": [
-    "https://login.microsoftonline.com/*"
+    "https://login.microsoftonline.com/*",
+    "https://github.com/enterprises/*/sso*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -22,9 +23,17 @@
     {
       "matches": [
         "https://login.microsoftonline.com/*/oauth2/authorize*",
-        "https://login.microsoftonline.com/*/oauth2/v2.0/authorize*"
+        "https://login.microsoftonline.com/*/oauth2/v2.0/authorize*",
+        "https://login.microsoftonline.com/*/saml2*"
       ],
       "js": ["contentScript.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://github.com/enterprises/*/sso*"
+      ],
+      "js": ["githubSsoScript.js"],
       "run_at": "document_end"
     }
   ]

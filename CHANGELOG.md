@@ -1,5 +1,20 @@
 # Changelog
 
+## v0.4 - 2026-01-29
+
+### Added
+- Support for GitHub Enterprise SSO pages (auto-clicks "Continue" button)
+
+## v0.3 - 2026-01-29
+
+### Added
+- Support for SAML login pages (`/saml2*` URLs)
+- Auto-fill email on "Enter your email" pages (pre-populates from Edge profile)
+- Optional auto-submit after 4 seconds when filling email (disabled by default)
+
+### Changed
+- Account picker behavior unchanged (still auto-clicks matching tile)
+
 ## v0.2 - 2026-01-29
 
 ### Added
