@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.5 - 2026-01-30
+
+### Added
+- Support for IcM identity provider selection (auto-selects EntraID-OIDC)
+- Click tracking by type (Entra tile, Entra email, GitHub SSO, IcM)
+- Reset button to clear all data
+
+
 ## v0.4 - 2026-01-29
 
 ### Added

@@ -8,20 +8,26 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
   
   if (request.action === 'incrementClickCount') {
-    chrome.storage.local.get(['clickCount', 'trackingSince'], (data) => {
-      const newCount = (data.clickCount || 0) + 1;
+    const clickType = request.clickType || 'unknown';
+    chrome.storage.local.get(['clickCounts', 'trackingSince'], (data) => {
+      const clickCounts = data.clickCounts || {};
+      clickCounts[clickType] = (clickCounts[clickType] || 0) + 1;
+      const total = Object.values(clickCounts).reduce((a, b) => a + b, 0);
       const trackingSince = data.trackingSince || new Date().toISOString();
-      chrome.storage.local.set({ clickCount: newCount, trackingSince }, () => {
-        sendResponse({ clickCount: newCount, trackingSince });
+      chrome.storage.local.set({ clickCounts, trackingSince }, () => {
+        sendResponse({ clickCount: total, clickCounts, trackingSince });
       });
     });
     return true;
   }
   
   if (request.action === 'getClickStats') {
-    chrome.storage.local.get(['clickCount', 'trackingSince'], (data) => {
+    chrome.storage.local.get(['clickCounts', 'trackingSince'], (data) => {
+      const clickCounts = data.clickCounts || {};
+      const total = Object.values(clickCounts).reduce((a, b) => a + b, 0);
       sendResponse({
-        clickCount: data.clickCount || 0,
+        clickCount: total,
+        clickCounts,
         trackingSince: data.trackingSince || null
       });
     });

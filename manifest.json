@@ -1,7 +1,7 @@
 {
-  "name": "AAD Account Picker",
-  "version": "0.4",
-  "description": "Auto-selects your account on Microsoft login pages based on your Edge profile.",
+  "name": "Click Curmudgeon",
+  "version": "0.5",
+  "description": "Grumpily auto-clicks login pages so you don't have to.",
   "manifest_version": 3,
   "permissions": [
     "identity",
@@ -10,14 +10,21 @@
   ],
   "host_permissions": [
     "https://login.microsoftonline.com/*",
-    "https://github.com/enterprises/*/sso*"
+    "https://github.com/enterprises/*/sso*",
+    "https://portal.microsofticm.com/*"
   ],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "AAD Account Picker"
+    "default_title": "Click Curmudgeon",
+    "default_icon": {
+      "16": "icon16.png",
+      "32": "icon32.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
+    }
   },
   "content_scripts": [
     {
@@ -26,14 +33,21 @@
         "https://login.microsoftonline.com/*/oauth2/v2.0/authorize*",
         "https://login.microsoftonline.com/*/saml2*"
       ],
-      "js": ["contentScript.js"],
+      "js": ["utils.js", "entraSsoScript.js"],
       "run_at": "document_end"
     },
     {
       "matches": [
         "https://github.com/enterprises/*/sso*"
       ],
-      "js": ["githubSsoScript.js"],
+      "js": ["utils.js", "githubSsoScript.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://portal.microsofticm.com/sso2/IdentityProviderSelection.html*"
+      ],
+      "js": ["utils.js", "icmContentScript.js"],
       "run_at": "document_end"
     }
   ]
