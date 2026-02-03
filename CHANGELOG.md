@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.6 - 2026-02-03
+
+### Added
+- Support for WS-Federation login pages (`/wsfed*` URLs)
+
 ## v0.5 - 2026-01-30
 
 ### Added

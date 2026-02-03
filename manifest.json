@@ -1,6 +1,6 @@
 {
   "name": "Click Curmudgeon",
-  "version": "0.5",
+  "version": "0.6",
   "description": "Grumpily auto-clicks login pages so you don't have to.",
   "manifest_version": 3,
   "permissions": [
@@ -31,7 +31,8 @@
       "matches": [
         "https://login.microsoftonline.com/*/oauth2/authorize*",
         "https://login.microsoftonline.com/*/oauth2/v2.0/authorize*",
-        "https://login.microsoftonline.com/*/saml2*"
+        "https://login.microsoftonline.com/*/saml2*",
+        "https://login.microsoftonline.com/*/wsfed*"
       ],
       "js": ["utils.js", "entraSsoScript.js"],
       "run_at": "document_end"
