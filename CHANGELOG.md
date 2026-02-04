@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.7 - 2026-02-04
+
+### Added
+- Support for GitHub business SSO panels on `github.com/microsoft/*` repos
+
 ## v0.6 - 2026-02-03
 
 ### Added
