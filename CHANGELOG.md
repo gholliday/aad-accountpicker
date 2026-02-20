@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.8 - 2026-02-20
+
+### Added
+- Support for GitHub Enterprise Server SSO on `microsoft.ghe.com`
+- Support for OIDC-based SSO initiation (in addition to SAML)
+
 ## v0.7 - 2026-02-04
 
 ### Added

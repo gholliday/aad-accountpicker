@@ -1,6 +1,6 @@
 {
   "name": "Click Curmudgeon",
-  "version": "0.7",
+  "version": "0.8",
   "description": "Grumpily auto-clicks login pages so you don't have to.",
   "manifest_version": 3,
   "permissions": [
@@ -12,6 +12,7 @@
     "https://login.microsoftonline.com/*",
     "https://github.com/enterprises/*/sso*",
     "https://github.com/microsoft/*",
+    "https://microsoft.ghe.com/*",
     "https://portal.microsofticm.com/*"
   ],
   "background": {
@@ -41,7 +42,8 @@
     {
       "matches": [
         "https://github.com/enterprises/*/sso*",
-        "https://github.com/microsoft/*"
+        "https://github.com/microsoft/*",
+        "https://microsoft.ghe.com/*"
       ],
       "js": ["utils.js", "githubSsoScript.js"],
       "run_at": "document_end"
