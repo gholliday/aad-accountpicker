@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.9 - 2026-02-23
+
+### Fixed
+- Expanded GitHub SSO matching to include `github.com/Azure/*` pages so "Continue" is auto-clicked on org SSO prompts.
+
 ## v0.8 - 2026-02-20
 
 ### Added

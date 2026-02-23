@@ -1,6 +1,6 @@
 {
   "name": "Click Curmudgeon",
-  "version": "0.8",
+  "version": "0.9",
   "description": "Grumpily auto-clicks login pages so you don't have to.",
   "manifest_version": 3,
   "permissions": [
@@ -11,6 +11,7 @@
   "host_permissions": [
     "https://login.microsoftonline.com/*",
     "https://github.com/enterprises/*/sso*",
+    "https://github.com/Azure/*",
     "https://github.com/microsoft/*",
     "https://microsoft.ghe.com/*",
     "https://portal.microsofticm.com/*"
@@ -42,6 +43,7 @@
     {
       "matches": [
         "https://github.com/enterprises/*/sso*",
+        "https://github.com/Azure/*",
         "https://github.com/microsoft/*",
         "https://microsoft.ghe.com/*"
       ],
