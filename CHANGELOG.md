@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.10 - 2026-03-03
+
+### Added
+- Support for `github.com/AzureAD/*` SSO prompts (e.g. microsoft-authentication-cli releases)
+
 ## v0.9 - 2026-02-23
 
 ### Fixed
