@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.11 - 2026-03-13
+
+### Added
+- Popup button to disable or re-enable the extension without uninstalling it
+
+### Changed
+- Automation now respects the popup enable/disable state across Entra, GitHub SSO, and IcM flows, including delayed actions
+
 ## v0.10 - 2026-03-03
 
 ### Added

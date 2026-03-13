@@ -34,6 +34,7 @@ Edge has a setting that claims to fix some of this. It doesn't work. 🤷‍♂�
 
 Click the extension icon to access settings:
 
+- **Enable/Disable Extension** - Turns the automation on or off without uninstalling it
 - **Delay 3s before picking account** - Adds a delay so you can see what's happening
 - **Auto-submit email after 4s** - Automatically clicks "Next" after filling email
 - **Reset All Data** - Clears click counts and settings

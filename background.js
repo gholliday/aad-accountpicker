@@ -9,13 +9,20 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   
   if (request.action === 'incrementClickCount') {
     const clickType = request.clickType || 'unknown';
-    chrome.storage.local.get(['clickCounts', 'trackingSince'], (data) => {
+    chrome.storage.local.get(['clickCounts', 'trackingSince', 'extensionEnabled'], (data) => {
       const clickCounts = data.clickCounts || {};
-      clickCounts[clickType] = (clickCounts[clickType] || 0) + 1;
       const total = Object.values(clickCounts).reduce((a, b) => a + b, 0);
+
+      if (data.extensionEnabled === false) {
+        sendResponse({ clickCount: total, clickCounts, trackingSince: data.trackingSince || null });
+        return;
+      }
+
+      clickCounts[clickType] = (clickCounts[clickType] || 0) + 1;
+      const updatedTotal = Object.values(clickCounts).reduce((a, b) => a + b, 0);
       const trackingSince = data.trackingSince || new Date().toISOString();
       chrome.storage.local.set({ clickCounts, trackingSince }, () => {
-        sendResponse({ clickCount: total, clickCounts, trackingSince });
+        sendResponse({ clickCount: updatedTotal, clickCounts, trackingSince });
       });
     });
     return true;

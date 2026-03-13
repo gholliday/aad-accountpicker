@@ -3,14 +3,16 @@ chrome.runtime.sendMessage({ action: 'getProfileEmail' }, (response) => {
   const email = response?.email;
   if (!email) return; // InPrivate or not signed in
 
-  chrome.storage.local.get(['delayEnabled', 'emailAutoSubmit'], (config) => {
+  loadConfig(['delayEnabled', 'emailAutoSubmit'], (config) => {
+    if (!config.extensionEnabled) return;
+
     const delayMs = config.delayEnabled ? 3000 : 0;
 
     const tryClickTile = () => {
       const tile = document.querySelector(`[data-test-id="${email}"]`);
       if (tile) {
         incrementAndNotify(email, delayMs, 'Clicking', 'entra-tile');
-        setTimeout(() => tile.click(), delayMs);
+        scheduleIfEnabled(delayMs, () => tile.click());
         return true;
       }
       return false;
@@ -25,7 +27,7 @@ chrome.runtime.sendMessage({ action: 'getProfileEmail' }, (response) => {
         const autoSubmit = config.emailAutoSubmit;
         incrementAndNotify(email, autoSubmit ? 4000 : 0, autoSubmit ? 'Submitting' : 'Selected', 'entra-email');
         if (autoSubmit) {
-          setTimeout(() => nextButton.click(), 4000);
+          scheduleIfEnabled(4000, () => nextButton.click());
         }
         return true;
       }

@@ -1,5 +1,7 @@
 // Auto-select IcM identity provider
-chrome.storage.local.get(['delayEnabled'], (config) => {
+loadConfig(['delayEnabled'], (config) => {
+  if (!config.extensionEnabled) return;
+
   const delayMs = config.delayEnabled ? 3000 : 0;
   const identityProvider = 'EntraID-OIDC';
 
@@ -9,7 +11,7 @@ chrome.storage.local.get(['delayEnabled'], (config) => {
   urlParams.set('identityProvider', identityProvider);
 
   incrementAndNotify(identityProvider, delayMs, 'Redirecting', 'icm');
-  setTimeout(() => {
+  scheduleIfEnabled(delayMs, () => {
     window.location.href = `${baseUrl}?${urlParams}`;
-  }, delayMs);
+  });
 });

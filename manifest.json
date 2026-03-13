@@ -1,6 +1,6 @@
 {
   "name": "Click Curmudgeon",
-  "version": "0.10",
+  "version": "0.11",
   "description": "Grumpily auto-clicks login pages so you don't have to.",
   "manifest_version": 3,
   "permissions": [

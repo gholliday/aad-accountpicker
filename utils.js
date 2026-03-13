@@ -26,14 +26,51 @@ function showNotification(label, clickCount, delayMs, actionText = 'Selected') {
   document.body.appendChild(popup);
 }
 
+function isExtensionEnabled(config) {
+  return config.extensionEnabled !== false;
+}
+
+function loadConfig(keys, callback) {
+  const requestedKeys = [...new Set([...keys, 'extensionEnabled'])];
+  chrome.storage.local.get(requestedKeys, (config) => {
+    callback({
+      ...config,
+      extensionEnabled: isExtensionEnabled(config)
+    });
+  });
+}
+
 function waitForElement(tryAction, timeoutMs = 5000) {
   if (tryAction()) return;
-  
+
   const observer = new MutationObserver(() => {
-    if (tryAction()) observer.disconnect();
+    if (tryAction()) cleanup();
   });
+
+  const handleStorageChange = (changes, areaName) => {
+    if (areaName === 'local' && changes.extensionEnabled?.newValue === false) {
+      cleanup();
+    }
+  };
+
+  const cleanup = () => {
+    observer.disconnect();
+    chrome.storage.onChanged.removeListener(handleStorageChange);
+    clearTimeout(timeoutId);
+  };
+
+  chrome.storage.onChanged.addListener(handleStorageChange);
   observer.observe(document.body, { childList: true, subtree: true });
-  setTimeout(() => observer.disconnect(), timeoutMs);
+  const timeoutId = setTimeout(cleanup, timeoutMs);
+}
+
+function scheduleIfEnabled(delayMs, action) {
+  setTimeout(() => {
+    chrome.storage.local.get(['extensionEnabled'], (config) => {
+      if (!isExtensionEnabled(config)) return;
+      action();
+    });
+  }, delayMs);
 }
 
 function incrementAndNotify(label, delayMs, actionText, clickType) {

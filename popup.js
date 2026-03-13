@@ -5,6 +5,21 @@ const typeLabels = {
   'icm': 'IcM'
 };
 
+const delayCheckbox = document.getElementById('delayEnabled');
+const emailAutoSubmitCheckbox = document.getElementById('emailAutoSubmit');
+const toggleButton = document.getElementById('toggleButton');
+const toggleStatus = document.getElementById('toggleStatus');
+const resetButton = document.getElementById('resetButton');
+
+let extensionEnabled = true;
+
+function renderExtensionState() {
+  toggleStatus.textContent = `Extension is ${extensionEnabled ? 'enabled' : 'disabled'}`;
+  toggleButton.textContent = extensionEnabled ? 'Disable Extension' : 'Enable Extension';
+  toggleButton.classList.toggle('enabled', extensionEnabled);
+  toggleButton.classList.toggle('disabled', !extensionEnabled);
+}
+
 chrome.runtime.sendMessage({ action: 'getClickStats' }, (stats) => {
   document.getElementById('count').textContent = stats?.clickCount || 0;
   
@@ -24,12 +39,11 @@ chrome.runtime.sendMessage({ action: 'getClickStats' }, (stats) => {
 });
 
 // Load and handle settings
-const delayCheckbox = document.getElementById('delayEnabled');
-const emailAutoSubmitCheckbox = document.getElementById('emailAutoSubmit');
-
-chrome.storage.local.get(['delayEnabled', 'emailAutoSubmit'], (data) => {
+chrome.storage.local.get(['delayEnabled', 'emailAutoSubmit', 'extensionEnabled'], (data) => {
+  extensionEnabled = data.extensionEnabled !== false;
   delayCheckbox.checked = data.delayEnabled || false;
   emailAutoSubmitCheckbox.checked = data.emailAutoSubmit || false;
+  renderExtensionState();
 });
 
 delayCheckbox.addEventListener('change', () => {
@@ -40,16 +54,23 @@ emailAutoSubmitCheckbox.addEventListener('change', () => {
   chrome.storage.local.set({ emailAutoSubmit: emailAutoSubmitCheckbox.checked });
 });
 
+toggleButton.addEventListener('click', () => {
+  extensionEnabled = !extensionEnabled;
+  chrome.storage.local.set({ extensionEnabled }, renderExtensionState);
+});
+
 // Reset button
-document.getElementById('resetButton').addEventListener('click', (e) => {
+resetButton.addEventListener('click', (e) => {
   const button = e.target;
   if (button.dataset.confirm) {
     chrome.storage.local.clear(() => {
       document.getElementById('count').textContent = '0';
       document.getElementById('breakdown').innerHTML = '';
       document.getElementById('since').textContent = 'No clicks recorded yet';
+      extensionEnabled = true;
       delayCheckbox.checked = false;
       emailAutoSubmitCheckbox.checked = false;
+      renderExtensionState();
       button.textContent = '✓ Cleared';
       button.style.backgroundColor = '#4a4';
       button.style.color = '#fff';
