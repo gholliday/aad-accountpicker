@@ -1,6 +1,6 @@
 {
   "name": "Click Curmudgeon",
-  "version": "0.11",
+  "version": "0.12",
   "description": "Grumpily auto-clicks login pages so you don't have to.",
   "manifest_version": 3,
   "permissions": [
@@ -15,7 +15,8 @@
     "https://github.com/AzureAD/*",
     "https://github.com/microsoft/*",
     "https://microsoft.ghe.com/*",
-    "https://portal.microsofticm.com/*"
+    "https://portal.microsofticm.com/*",
+    "https://*.onecdn.static.microsoft/evergreen-assets/safelinks/*"
   ],
   "background": {
     "service_worker": "background.js"
@@ -57,6 +58,13 @@
         "https://portal.microsofticm.com/sso2/IdentityProviderSelection.html*"
       ],
       "js": ["utils.js", "icmContentScript.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": [
+        "https://*.onecdn.static.microsoft/evergreen-assets/safelinks/*/atp-safelinks.html*"
+      ],
+      "js": ["utils.js", "atpSafeLinksScript.js"],
       "run_at": "document_end"
     }
   ]

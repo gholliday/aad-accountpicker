@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.12 - 2026-04-14
+
+### Added
+- Auto-click "Skip verification" on Microsoft ATP Safe Links interstitial pages
+
 ## v0.11 - 2026-03-13
 
 ### Added
