@@ -1,5 +1,10 @@
 # Changelog
 
+## v0.13 - 2026-04-20
+
+### Added
+- Auto-click SSO "Continue" on `msft.ghe.com` (in addition to `microsoft.ghe.com`)
+
 ## v0.12 - 2026-04-14
 
 ### Added
